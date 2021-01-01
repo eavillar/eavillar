@@ -1,4 +1,4 @@
-﻿Shader "Special/Unlit/Christmas Card"
+﻿Shader "CG/Unlit/Christmas Card Background"
 {
     Properties
     {
@@ -81,11 +81,11 @@
  
             fixed4 frag (v2f i) : SV_Target
             {
+                float3 starRays; float lenghtUV; float z = _Time.y; 
                 float2 vertex = i.vertex.xy;
                 float2 r = _ScreenParams.xy;
                 float2 st = vertex / r;
-                float3 c; float l; float z = _Time.y; 
-                float2 uv0 = float2(i.uv.x,i.uv.y+sin(_Time.y*.25)*.25);
+                float2 uv0 = float2(i.uv.x,i.uv.y+sin(z*.25)*.25);
                 float2 uv1 = i.uv0;
                 float mask = 1-distance(i.uv0.xy, float2(0.75,0.25));
                 for( int i=0; i<3; i++){
@@ -93,13 +93,13 @@
                     float2 p = vertex.xy/_ScreenParams.xy;
                     p-= 1.35 * .6;
                     p.x*=r.x/r.y;
-                    z+= 102;
-                    l = length(p);
-                    uv1+=p/l*(sin(z*.0025)+2)*abs(cos(l*5.-z*.25));
-                    c[i] =.01027/length(abs(fmod(uv1,1)+.610))*2.5;
+                    z+= 100;
+                    lenghtUV = length(p);
+                    uv1+=p/lenghtUV*(sin(z*.0025)+2)*abs(cos(lenghtUV*5.-z*.25));
+                    starRays[i] =.01027/length(abs(fmod(uv1,1)+.610))*2.5;                                                     
                 }
                 float3 stars = float3(0,0,0);
-                float t = _Time.y*.000162;
+                float t = z*.000162;
                 for(float i=0.; i<1.; i+=1./3){
                     float depth =1- frac(i*i);
                     float scale = lerp(105., 2.5, depth);
@@ -107,7 +107,7 @@
                     stars += StarLayer(uv1*scale+i*453.2+_Time.xy*.10035)*fade;
                 }
                 float3 color = float3(uv0.y,uv0.y,uv0.y);
-                float3 outRGB = lerp(_skytop,_skybtom,color)+lerp(float3(c/l), float3(0.5,.21,.1),pow(mask,.374));
+                float3 outRGB = lerp(_skytop,_skybtom,color)+lerp(float3(starRays/lenghtUV), float3(0.5,.21,.1),pow(mask,.374));
                 outRGB *= (1.-distance(fmod(uv1,float2(1,1)),float2(0.65,0.65)))*.642;
                 return float4(outRGB+lerp( float3(0,0,0),stars, color),1);
             }
