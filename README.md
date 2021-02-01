@@ -3,6 +3,11 @@ Feel free to use the content, modify it, share your thoughts and/or feedback wit
 If you use any shader, file or specific content in this repository; at least mention me in the credits and share with me what you've created. 
 I will be happy to see it! 😄
 
+If you want help this witch doctor donating some bugs, you can do it clickin on this link:
+https://www.buymeacoffee.com/tlq6lxo
+
+
+
 <!--
 **eavillar/eavillar** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
